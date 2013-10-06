@@ -21,7 +21,7 @@
 			authentication-failure-url="/login/form?error"/-->
 			
 			<security:logout logout-url="/logout"
-				logout-success-url="/login/form?logout"/>
+				logout-success-url="https://${cas.server.host}/cas-server-webapp-3.5.2/logout"/>
 
 	</security:http>
 	
