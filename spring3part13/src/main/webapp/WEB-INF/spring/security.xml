@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<security:http pattern="/resources/**" security="none"/>
+	<security:http auto-config="true"  entry-point-ref="casEntryPoint">
+		<!-- security:intercept-url pattern="/login/*" access="ROLE_ANONYMOUS, ROLE_USER"/-->
+
+		<!-- this is the most basic way of configuring the security -->
+		<security:intercept-url pattern="/*" access="ROLE_USER"/>
+
+		<security:custom-filter ref="casFilter" position="CAS_FILTER"/>
+		<!--  custom form for the security -->
+		<!-- security:form-login login-page="/login/form"
+			login-processing-url="/login"
+			username-parameter="username"
+			password-parameter="password"
+			authentication-failure-url="/login/form?error"/-->
+			
+			<security:logout logout-url="/logout"
+				logout-success-url="/login/form?logout"/>
+
+	</security:http>
+	
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider ref="casAuthenticationProvider"/>
+	</security:authentication-manager>
+	
+	<security:user-service id="userService">
+		<security:user name="user1" password="user1" authorities="ROLE_USER"/>
+	</security:user-service>
+</beans>
